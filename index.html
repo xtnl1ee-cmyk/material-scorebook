@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>物料评分手账</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">评</div>
+        <div>
+          <h1>物料评分手账</h1>
+          <p>每一期单独打分：推荐指数、CP 关系、观后感都分开记录。</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="exportBtn">导出</button>
+        <button class="btn" id="importBtn">导入</button>
+        <button class="btn primary" id="addBtn">新增一期</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app">
+    <aside class="panel sidebar">
+      <section class="side-section">
+        <h2 class="side-title">筛选</h2>
+        <div class="field">
+          <label for="categoryFilter">栏目</label>
+          <select id="categoryFilter"></select>
+        </div>
+        <div class="field">
+          <label for="seriesFilter">系列</label>
+          <select id="seriesFilter"></select>
+        </div>
+        <div class="field">
+          <label for="yearFilter">年份</label>
+          <select id="yearFilter"></select>
+        </div>
+        <div class="field">
+          <label for="statusFilter">记录状态</label>
+          <select id="statusFilter">
+            <option value="all">全部</option>
+            <option value="watched">已看</option>
+            <option value="favorite">收藏</option>
+            <option value="unrated">未评分</option>
+            <option value="noted">有观后感</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="side-section">
+        <h2 class="side-title">总览</h2>
+        <div class="summary-grid" id="stats"></div>
+      </section>
+
+      <section class="side-section">
+        <h2 class="side-title">观看路线</h2>
+        <button class="chip active" data-preset="all">全部单期</button>
+        <button class="chip" data-preset="beginner">入坑精选</button>
+        <button class="chip" data-preset="cp">CP 高能</button>
+        <button class="chip" data-preset="stage">舞台/演唱会</button>
+        <button class="chip" data-preset="daily">日常团综</button>
+      </section>
+    </aside>
+
+    <section class="panel main-panel">
+      <nav class="tabs" aria-label="页面切换">
+        <button class="tab active" data-tab="library">物料库</button>
+        <button class="tab" data-tab="thoughts">观后感</button>
+        <button class="tab" data-tab="references">原始合集</button>
+      </nav>
+
+      <div class="toolbar">
+        <div class="search">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="搜索标题、系列、栏目、CP、标签">
+        </div>
+        <select id="sortSelect" class="btn" aria-label="排序">
+          <option value="seriesAsc">按系列顺序</option>
+          <option value="dateDesc">时间从新到旧</option>
+          <option value="dateAsc">时间从旧到新</option>
+          <option value="recDesc">推荐指数优先</option>
+          <option value="cpDesc">CP 关系优先</option>
+          <option value="updatedDesc">最近记录优先</option>
+        </select>
+        <button class="btn" id="clearFiltersBtn">清空筛选</button>
+      </div>
+
+      <div class="quick" id="quickTags"></div>
+
+      <section class="content active" id="libraryPanel">
+        <div id="groupedList"></div>
+      </section>
+
+      <section class="content" id="thoughtsPanel">
+        <div class="thought-list" id="thoughtList"></div>
+      </section>
+
+      <section class="content" id="referencesPanel">
+        <div class="reference-grid" id="referenceGrid"></div>
+      </section>
+    </section>
+
+    <aside class="panel score-panel">
+      <div class="score-head">
+        <h2 id="selectedTitle">选择一期开始评分</h2>
+        <div class="material-meta" id="selectedMeta"></div>
+      </div>
+      <div class="score-body">
+        <div class="edit-box">
+          <h3>物料信息</h3>
+          <div class="field">
+            <label for="editTitle">标题</label>
+            <input id="editTitle" type="text">
+          </div>
+          <div class="field two-col">
+            <div>
+              <label for="editCategory">栏目</label>
+              <input id="editCategory" type="text">
+            </div>
+            <div>
+              <label for="editSeries">系列</label>
+              <input id="editSeries" type="text">
+            </div>
+          </div>
+          <div class="field two-col">
+            <div>
+              <label for="editEpisode">期数</label>
+              <input id="editEpisode" type="text">
+            </div>
+            <div>
+              <label for="editDate">日期</label>
+              <input id="editDate" type="date">
+            </div>
+          </div>
+          <div class="field">
+            <label for="editTags">标签</label>
+            <input id="editTags" type="text" placeholder="用逗号隔开">
+          </div>
+          <button class="btn full" id="saveMaterialBtn">保存物料信息</button>
+        </div>
+        <div class="field">
+          <label>推荐指数</label>
+          <div class="stars" id="recommendStars"></div>
+        </div>
+        <div class="field">
+          <label>CP 关系</label>
+          <div class="stars" id="cpStars"></div>
+        </div>
+        <div class="toggles">
+          <button class="toggle" id="watchedToggle">✓ 已看</button>
+          <button class="toggle" id="favoriteToggle">★ 收藏</button>
+        </div>
+        <div class="field">
+          <label for="durationInput">时长（分钟）</label>
+          <input id="durationInput" type="number" min="0" step="1" placeholder="例如：45">
+        </div>
+        <div class="field">
+          <label for="feelingInput">观后感</label>
+          <textarea id="feelingInput" placeholder="写下名场面、笑点、泪点、适合复刷的原因……"></textarea>
+        </div>
+        <button class="btn primary full" id="saveBtn">保存记录</button>
+      </div>
+    </aside>
+  </main>
+
+  <dialog id="referenceDialog">
+    <div class="dialog-head">
+      <h3 id="dialogTitle">原始合集</h3>
+      <button class="btn icon" id="closeDialog" aria-label="关闭">×</button>
+    </div>
+    <div class="dialog-body">
+      <img id="dialogImage" alt="原始物料合集大图">
+    </div>
+  </dialog>
+
+  <dialog id="addDialog">
+    <div class="dialog-head">
+      <h3>新增一期</h3>
+      <button class="btn icon" id="closeAddDialog" aria-label="关闭">×</button>
+    </div>
+    <div class="dialog-body">
+      <div class="field"><label for="newTitle">单期标题</label><input id="newTitle" type="text"></div>
+      <div class="field"><label for="newCategory">栏目</label><input id="newCategory" type="text" placeholder="团综类"></div>
+      <div class="field"><label for="newSeries">系列</label><input id="newSeries" type="text" placeholder="时代夏令营 2"></div>
+      <div class="field"><label for="newEpisode">期数</label><input id="newEpisode" type="text" placeholder="EP01"></div>
+      <div class="field"><label for="newDate">日期</label><input id="newDate" type="date"></div>
+      <div class="field"><label for="newTags">标签</label><input id="newTags" type="text" placeholder="用逗号隔开"></div>
+      <button class="btn primary full" id="createMaterialBtn">加入物料库</button>
+    </div>
+  </dialog>
+
+  <input class="hidden-file" id="importFile" type="file" accept="application/json">
+  <div class="toast" id="toast"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

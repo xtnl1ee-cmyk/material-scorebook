@@ -91,16 +91,6 @@
     return "♥".repeat(score) + "♡".repeat(5 - score);
   }
 
-  function cpMoodLabel(value) {
-    const score = Number(value || 0);
-    if (score >= 5) return "心动暴击";
-    if (score >= 4) return "高甜预警";
-    if (score >= 3) return "氛围很稳";
-    if (score >= 2) return "有点上头";
-    if (score >= 1) return "轻微冒粉红泡泡";
-    return "等待你盖章";
-  }
-
   function escapeHTML(value) {
     return String(value || "").replace(/[&<>"']/g, (char) => ({
       "&": "&amp;",
@@ -285,7 +275,6 @@
                     <div class="episode-score">
                       <span>推荐 ${starsText(record.recommend)}</span>
                       <span>CP ${heartsText(record.cp)}</span>
-                      <span>${cpMoodLabel(record.cp)}</span>
                       <span>${record.duration ? `${record.duration} 分钟` : "未设时长"}</span>
                       <span>${record.feeling ? "有观后感" : "暂无记录"}</span>
                     </div>

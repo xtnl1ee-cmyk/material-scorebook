@@ -30,6 +30,8 @@
     cpStars: document.querySelector("#cpStars"),
     watchedToggle: document.querySelector("#watchedToggle"),
     favoriteToggle: document.querySelector("#favoriteToggle"),
+    toggleEditBtn: document.querySelector("#toggleEditBtn"),
+    editBox: document.querySelector("#editBox"),
     editTitle: document.querySelector("#editTitle"),
     editCategory: document.querySelector("#editCategory"),
     editSeries: document.querySelector("#editSeries"),
@@ -416,6 +418,22 @@
     showToast.timer = setTimeout(() => els.toast.classList.remove("show"), 1800);
   }
 
+  function isMobileLayout() {
+    return window.matchMedia("(max-width: 760px)").matches;
+  }
+
+  function scrollToSection(id) {
+    const target = document.getElementById(id);
+    if (!target) return;
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function setEditBoxExpanded(expanded) {
+    els.editBox.classList.toggle("is-collapsed", !expanded);
+    els.toggleEditBtn.setAttribute("aria-expanded", String(expanded));
+    els.toggleEditBtn.textContent = expanded ? "收起物料信息" : "修改物料信息";
+  }
+
   function switchTab(tab) {
     activeTab = tab;
     document.querySelectorAll(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tab));
@@ -486,6 +504,7 @@
       selectedId = card.dataset.id;
       renderLibrary();
       renderSelected();
+      if (isMobileLayout()) scrollToSection("scoreSection");
       return;
     }
 
@@ -519,6 +538,12 @@
       document.querySelector("#dialogTitle").textContent = item.title;
       document.querySelector("#dialogImage").src = item.src;
       document.querySelector("#referenceDialog").showModal();
+      return;
+    }
+
+    const scrollBtn = event.target.closest("[data-scroll-target]");
+    if (scrollBtn) {
+      scrollToSection(scrollBtn.dataset.scrollTarget);
     }
   });
 
@@ -548,6 +573,10 @@
     duration: Number(els.durationInput.value || 0),
     feeling: els.feelingInput.value.trim()
   }));
+  document.querySelector("#toggleEditBtn").addEventListener("click", () => {
+    const expanded = els.toggleEditBtn.getAttribute("aria-expanded") === "true";
+    setEditBoxExpanded(!expanded);
+  });
   document.querySelector("#exportBtn").addEventListener("click", exportData);
   document.querySelector("#importBtn").addEventListener("click", () => els.importFile.click());
   els.importFile.addEventListener("change", event => {
@@ -560,5 +589,6 @@
   document.querySelector("#closeDialog").addEventListener("click", () => document.querySelector("#referenceDialog").close());
   document.querySelector("#closeAddDialog").addEventListener("click", () => document.querySelector("#addDialog").close());
 
+  setEditBoxExpanded(false);
   renderAll();
 })();

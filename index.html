@@ -25,7 +25,7 @@
   </header>
 
   <main class="app">
-    <aside class="panel sidebar">
+    <aside class="panel sidebar" id="sidebarPanel">
       <section class="side-section">
         <h2 class="side-title">筛选</h2>
         <div class="field">
@@ -67,7 +67,7 @@
       </section>
     </aside>
 
-    <section class="panel main-panel">
+    <section class="panel main-panel" id="librarySection">
       <nav class="tabs" aria-label="页面切换">
         <button class="tab active" data-tab="library">物料库</button>
         <button class="tab" data-tab="thoughts">观后感</button>
@@ -105,7 +105,7 @@
       </section>
     </section>
 
-    <aside class="panel score-panel">
+    <aside class="panel score-panel" id="scoreSection">
       <div class="score-head">
         <h2 id="selectedTitle">选择一期开始评分</h2>
         <div class="material-meta" id="selectedMeta"></div>
@@ -132,7 +132,8 @@
           <textarea id="feelingInput" placeholder="写下名场面、笑点、泪点、适合复刷的原因……"></textarea>
         </div>
         <button class="btn primary full" id="saveBtn">保存记录</button>
-        <div class="edit-box">
+        <button class="btn full" id="toggleEditBtn" type="button" aria-expanded="false">修改物料信息</button>
+        <div class="edit-box is-collapsed" id="editBox">
           <h3>物料信息</h3>
           <div class="field">
             <label for="editTitle">标题</label>
@@ -167,6 +168,12 @@
       </div>
     </aside>
   </main>
+
+  <nav class="mobile-dock" aria-label="手机快捷导航">
+    <button class="mobile-dock-btn" type="button" data-scroll-target="scoreSection">去打分</button>
+    <button class="mobile-dock-btn" type="button" data-scroll-target="librarySection">看物料</button>
+    <button class="mobile-dock-btn" type="button" data-scroll-target="sidebarPanel">筛选</button>
+  </nav>
 
   <dialog id="referenceDialog">
     <div class="dialog-head">

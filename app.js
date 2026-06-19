@@ -84,6 +84,21 @@
     return "★★★★★".slice(0, score) + "☆☆☆☆☆".slice(score);
   }
 
+  function heartsText(value) {
+    const score = Number(value || 0);
+    return "♥".repeat(score) + "♡".repeat(5 - score);
+  }
+
+  function cpMoodLabel(value) {
+    const score = Number(value || 0);
+    if (score >= 5) return "心动暴击";
+    if (score >= 4) return "高甜预警";
+    if (score >= 3) return "氛围很稳";
+    if (score >= 2) return "有点上头";
+    if (score >= 1) return "轻微冒粉红泡泡";
+    return "等待你盖章";
+  }
+
   function escapeHTML(value) {
     return String(value || "").replace(/[&<>"']/g, (char) => ({
       "&": "&amp;",
@@ -255,7 +270,7 @@
               ${seriesGroup.items.map(item => {
                 const record = recordFor(item.id);
                 return `
-                  <button class="episode-card ${item.id === selectedId ? "selected" : ""}" data-id="${item.id}">
+                  <button class="episode-card ${item.id === selectedId ? "selected" : ""} ${(record.cp || 0) >= 4 ? "cp-spark" : ""}" data-id="${item.id}">
                     <div class="episode-code">${escapeHTML(item.episode || "一期")}</div>
                     <div>
                       <h4 class="episode-title">${escapeHTML(item.title)}</h4>
@@ -266,7 +281,8 @@
                     </div>
                     <div class="episode-score">
                       <span>推荐 ${starsText(record.recommend)}</span>
-                      <span>CP ${starsText(record.cp)}</span>
+                      <span>CP ${heartsText(record.cp)}</span>
+                      <span>${cpMoodLabel(record.cp)}</span>
                       <span>${record.duration ? `${record.duration} 分钟` : "未设时长"}</span>
                       <span>${record.feeling ? "有观后感" : "暂无记录"}</span>
                     </div>
@@ -321,7 +337,10 @@
   function renderStars(container, field, value) {
     container.innerHTML = Array.from({ length: 5 }, (_, index) => {
       const starValue = index + 1;
-      return `<button class="star ${starValue <= Number(value || 0) ? "active" : ""}" data-star-field="${field}" data-star-value="${starValue}">★</button>`;
+      const active = starValue <= Number(value || 0) ? "active" : "";
+      const isHeart = field === "cp" ? "heart" : "";
+      const symbol = field === "cp" ? "♥" : "★";
+      return `<button class="star ${active} ${isHeart}" data-star-field="${field}" data-star-value="${starValue}">${symbol}</button>`;
     }).join("");
   }
 

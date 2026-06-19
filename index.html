@@ -111,6 +111,27 @@
         <div class="material-meta" id="selectedMeta"></div>
       </div>
       <div class="score-body">
+        <div class="field">
+          <label>推荐指数</label>
+          <div class="stars" id="recommendStars"></div>
+        </div>
+        <div class="field">
+          <label>CP 关系</label>
+          <div class="stars" id="cpStars"></div>
+        </div>
+        <div class="toggles">
+          <button class="toggle" id="watchedToggle">✓ 已看</button>
+          <button class="toggle" id="favoriteToggle">★ 收藏</button>
+        </div>
+        <div class="field">
+          <label for="durationInput">时长（分钟）</label>
+          <input id="durationInput" type="number" min="0" step="1" placeholder="例如：45">
+        </div>
+        <div class="field">
+          <label for="feelingInput">观后感</label>
+          <textarea id="feelingInput" placeholder="写下名场面、笑点、泪点、适合复刷的原因……"></textarea>
+        </div>
+        <button class="btn primary full" id="saveBtn">保存记录</button>
         <div class="edit-box">
           <h3>物料信息</h3>
           <div class="field">
@@ -143,27 +164,6 @@
           </div>
           <button class="btn full" id="saveMaterialBtn">保存物料信息</button>
         </div>
-        <div class="field">
-          <label>推荐指数</label>
-          <div class="stars" id="recommendStars"></div>
-        </div>
-        <div class="field">
-          <label>CP 关系</label>
-          <div class="stars" id="cpStars"></div>
-        </div>
-        <div class="toggles">
-          <button class="toggle" id="watchedToggle">✓ 已看</button>
-          <button class="toggle" id="favoriteToggle">★ 收藏</button>
-        </div>
-        <div class="field">
-          <label for="durationInput">时长（分钟）</label>
-          <input id="durationInput" type="number" min="0" step="1" placeholder="例如：45">
-        </div>
-        <div class="field">
-          <label for="feelingInput">观后感</label>
-          <textarea id="feelingInput" placeholder="写下名场面、笑点、泪点、适合复刷的原因……"></textarea>
-        </div>
-        <button class="btn primary full" id="saveBtn">保存记录</button>
       </div>
     </aside>
   </main>

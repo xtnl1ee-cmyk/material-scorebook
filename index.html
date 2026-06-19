@@ -46,6 +46,7 @@
             <option value="all">全部</option>
             <option value="watched">已看</option>
             <option value="favorite">收藏</option>
+            <option value="rated">已评分</option>
             <option value="unrated">未评分</option>
             <option value="noted">有观后感</option>
           </select>
@@ -59,11 +60,13 @@
 
       <section class="side-section">
         <h2 class="side-title">观看路线</h2>
-        <button class="chip active" data-preset="all">全部单期</button>
-        <button class="chip" data-preset="beginner">入坑精选</button>
-        <button class="chip" data-preset="cp">CP 高能</button>
-        <button class="chip" data-preset="stage">舞台/演唱会</button>
-        <button class="chip" data-preset="daily">日常团综</button>
+        <div class="preset-list">
+          <button class="chip active" data-preset="all">全部单期</button>
+          <button class="chip" data-preset="beginner">入坑精选</button>
+          <button class="chip" data-preset="cp">CP 高能</button>
+          <button class="chip" data-preset="stage">舞台/演唱会</button>
+          <button class="chip" data-preset="daily">日常团综</button>
+        </div>
       </section>
     </aside>
 

@@ -150,6 +150,7 @@
       if (activePreset !== "all" && !matchesPreset(item, activePreset)) return false;
       if (status === "watched" && !record.watched) return false;
       if (status === "favorite" && !record.favorite) return false;
+      if (status === "rated" && !(record.recommend || record.cp)) return false;
       if (status === "unrated" && (record.recommend || record.cp)) return false;
       if (status === "noted" && !record.feeling) return false;
       return true;
